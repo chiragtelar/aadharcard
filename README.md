@@ -33,7 +33,7 @@ A complete React JS application built with Material UI (MUI v5) for Aadhaar Card
 
 ```bash
 # Clone the repository
-git clone https://github.com/chiragtelar/aadharcard.git
+git clone https://github.com/[your-username]/aadharcard.git
 cd aadharcard
 
 # Install dependencies

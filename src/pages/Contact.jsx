@@ -29,7 +29,7 @@ const subjects = [
 
 const contactInfo = [
   { icon: <PhoneIcon color="primary" />, title: 'Phone', detail: '1800-300-1947 (Toll Free)', sub: 'Monday - Saturday, 8am - 8pm' },
-  { icon: <EmailIcon color="primary" />, title: 'Email', detail: 'help@aadharcard.example.com', sub: 'We respond within 24 hours' },
+  { icon: <EmailIcon color="primary" />, title: 'Email', detail: process.env.REACT_APP_CONTACT_EMAIL || 'help@example.com', sub: 'We respond within 24 hours' },
   { icon: <LocationOnIcon color="primary" />, title: 'Address', detail: 'New Delhi, India - 110001', sub: 'UIDAI Regional Office' },
   { icon: <AccessTimeIcon color="primary" />, title: 'Working Hours', detail: 'Mon - Sat: 8am - 8pm', sub: 'Sunday: Closed' },
 ];

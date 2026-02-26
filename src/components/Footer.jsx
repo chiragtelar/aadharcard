@@ -90,7 +90,7 @@ const Footer = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
               <EmailIcon sx={{ mr: 1, fontSize: 20, opacity: 0.8 }} />
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                help@aadharcard.example.com
+                {process.env.REACT_APP_CONTACT_EMAIL || 'help@example.com'}
               </Typography>
             </Box>
           </Grid>
