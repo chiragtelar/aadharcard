@@ -1,0 +1,9 @@
+{
+  "short_name": "Aadhaar Card",
+  "name": "Aadhaar Card Download",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1565c0",
+  "background_color": "#ffffff"
+}
