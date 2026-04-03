@@ -9,9 +9,8 @@ import {
   IconButton,
 } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
-import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -22,6 +21,8 @@ const Footer = () => {
     <Box sx={{ bgcolor: 'primary.dark', color: 'white', pt: 6, pb: 3, mt: 'auto' }}>
       <Container maxWidth="lg">
         <Grid container spacing={4}>
+
+          {/* Col 1 — Brand */}
           <Grid item xs={12} md={4}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <CreditCardIcon sx={{ mr: 1, fontSize: 28 }} />
@@ -30,8 +31,9 @@ const Footer = () => {
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ opacity: 0.8, mb: 2 }}>
-              Your trusted platform for Aadhaar Card download services. We provide easy and
-              secure access to Aadhaar Card related services online.
+              Adhar Card Download provides simple, step-by-step guides to download your e-Aadhaar
+              using official methods like UIDAI portal, OTP verification, and mAadhaar app. We are
+              not affiliated with UIDAI or any government authority.
             </Typography>
             <Box>
               <IconButton sx={{ color: 'white', p: 0.5 }} aria-label="Facebook">
@@ -46,18 +48,17 @@ const Footer = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          {/* Col 2 — Quick Links */}
+          <Grid item xs={12} sm={4} md={2}>
             <Typography variant="h6" fontWeight={600} mb={2}>
               Quick Links
             </Typography>
             {[
               { label: 'Home', to: '/' },
-              { label: 'Download Aadhaar', to: '/download' },
-              { label: 'About Us', to: '/about' },
-              { label: 'FAQs', to: '/faqs' },
-              { label: 'Contact Us', to: '/contact' },
-              { label: 'Privacy Policy', to: '/privacy' },
-              { label: 'Terms of Service', to: '/terms' },
+              { label: 'About Us', to: '/about-us' },
+              { label: 'Contact', to: '/contact-us' },
+              { label: 'Privacy Policy', to: '/privacy-policy' },
+              { label: 'Disclaimer', to: '/disclaimer' },
             ].map((link) => (
               <Box key={link.to} mb={0.5}>
                 <Link
@@ -71,36 +72,55 @@ const Footer = () => {
             ))}
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          {/* Col 3 — UIDAI Resources */}
+          <Grid item xs={12} sm={4} md={3}>
+            <Typography variant="h6" fontWeight={600} mb={2}>
+              UIDAI Resources
+            </Typography>
+            {[
+              { label: 'UIDAI Official Website', href: 'https://uidai.gov.in' },
+              { label: 'My Aadhaar Portal', href: 'https://myaadhaar.uidai.gov.in' },
+              { label: 'mAadhaar App', href: 'https://play.google.com/store/apps/details?id=in.gov.uidai.mAadhaarPlus' },
+            ].map((link) => (
+              <Box key={link.href} mb={0.5} sx={{ display: 'flex', alignItems: 'center' }}>
+                <Link
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ color: 'rgba(255,255,255,0.8)', '&:hover': { color: 'white' }, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 0.5 }}
+                >
+                  {link.label}
+                  <OpenInNewIcon sx={{ fontSize: 13, opacity: 0.7 }} />
+                </Link>
+              </Box>
+            ))}
+          </Grid>
+
+          {/* Col 4 — Contact */}
+          <Grid item xs={12} sm={4} md={3}>
             <Typography variant="h6" fontWeight={600} mb={2}>
               Contact Us
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1.5 }}>
-              <LocationOnIcon sx={{ mr: 1, fontSize: 20, opacity: 0.8, mt: 0.2 }} />
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                New Delhi, India - 110001
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-              <PhoneIcon sx={{ mr: 1, fontSize: 20, opacity: 0.8 }} />
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                1800-300-1947 (Toll Free)
-              </Typography>
-            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
               <EmailIcon sx={{ mr: 1, fontSize: 20, opacity: 0.8 }} />
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                {process.env.REACT_APP_CONTACT_EMAIL || 'help@example.com'}
+                support@adharcarddownloads.com
               </Typography>
             </Box>
           </Grid>
+
         </Grid>
 
         <Divider sx={{ borderColor: 'rgba(255,255,255,0.2)', my: 3 }} />
 
-        <Typography variant="body2" align="center" sx={{ opacity: 0.7 }}>
-          © {new Date().getFullYear()} Aadhaar Card Download. This is an informational website.
-          Aadhaar is a registered trademark of UIDAI, Government of India.
+        {/* Disclaimer */}
+        <Typography variant="body2" align="center" sx={{ opacity: 0.75, mb: 1.5, fontStyle: 'italic' }}>
+          This is an independent informational website created to help users understand
+          Aadhaar-related processes. We are not associated with UIDAI or any government body.
+        </Typography>
+
+        <Typography variant="body2" align="center" sx={{ opacity: 0.6 }}>
+          © {new Date().getFullYear()} Aadhaar Card Download. Aadhaar is a registered trademark of UIDAI, Government of India.
         </Typography>
       </Container>
     </Box>

@@ -9,6 +9,10 @@ import {
   CardContent,
   Chip,
   Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Divider,
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
@@ -16,46 +20,23 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import SecurityIcon from '@mui/icons-material/Security';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArticleIcon from '@mui/icons-material/Article';
+import { Link as RouterLink } from 'react-router-dom';
 
 const seoTitle = 'Adhar Card Download Online – e Adhar PDF, Status Check, Update & PAN Link Guide';
 const seoDescription =
   'Download your Adhar Card online instantly. Learn how to get e Adhar Card PDF, check Adhar status, update details, link PAN with Adhar, and find enrollment centers across India.';
 
-const highlights = [
-  'Download e Adhar Card PDF online',
-  'Update Adhar card details',
-  'Check Adhar application status',
-  'Link PAN card with Adhar',
-  'Book Adhar appointment online',
-  'Locate Adhar enrollment centers',
-];
-
-const topServices = [
-  {
-    title: 'Download e Adhar Card',
-    description: 'Get complete guidance to download your e Adhar card using Aadhaar number, enrollment ID, or VID.',
-    href: '/by-number-mobile',
-  },
-  {
-    title: 'Update Adhar Card Details',
-    description: 'Learn address, document and correction flows with required steps and update essentials.',
-    href: '/update',
-  },
-  {
-    title: 'Check Adhar Card Status',
-    description: 'Track enrollment and update requests quickly using status and application tracking tools.',
-    href: '/status',
-  },
-];
-
-const utilityLinks = [
-  { label: 'Adhar Card PDF Password & Print', href: '/pdf-password-print' },
-  { label: 'Adhar PAN Card Link', href: '/link/pan-card' },
-  { label: 'Lost Aadhaar / Retrieve', href: '/status/lost-adhar' },
-  { label: 'Application Status', href: '/application-status' },
-  { label: 'Adhar Card New Rules', href: '/blog/adhar-card-new-rules' },
-  { label: 'Adhar Update Fees', href: '/blog/adhar-update-fees' },
-];
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': 'https://adharcarddownloads.com/#organization', name: 'Adhar Card Downloads', url: 'https://adharcarddownloads.com/', logo: { '@type': 'ImageObject', url: 'https://adharcarddownloads.com/logo.png' }, sameAs: ['https://uidai.gov.in/'], contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: 'support@adharcarddownloads.com' } },
+    { '@type': 'WebSite', '@id': 'https://adharcarddownloads.com/#website', url: 'https://adharcarddownloads.com/', name: 'Adhar Card Downloads', publisher: { '@id': 'https://adharcarddownloads.com/#organization' } },
+    { '@type': 'WebPage', '@id': 'https://adharcarddownloads.com/#webpage', url: 'https://adharcarddownloads.com/', name: 'Adhar Card Download Online', isPartOf: { '@id': 'https://adharcarddownloads.com/#website' }, description: 'Complete guide to download Adhar card online, check Adhar status, update details, link PAN with Adhar, and find Adhar enrollment centers.', inLanguage: 'en-IN' },
+    { '@type': 'FAQPage', '@id': 'https://adharcarddownloads.com/#faq', mainEntity: [{ '@type': 'Question', name: 'How can I download my Adhar card online?', acceptedAnswer: { '@type': 'Answer', text: 'You can download your Adhar card from the UIDAI website using your Aadhaar number, enrollment ID, or virtual ID.' } }, { '@type': 'Question', name: 'What is the password for Aadhaar PDF?', acceptedAnswer: { '@type': 'Answer', text: 'The password is the first four letters of your name in capital letters followed by your birth year.' } }, { '@type': 'Question', name: 'Is e Aadhaar valid as identity proof?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, the e Aadhaar card is digitally signed by UIDAI and is legally valid across India.' } }] },
+  ],
+};
 
 const featureBar = [
   { icon: <SpeedIcon />, title: 'Fast guidance', desc: 'Clear route-wise instructions' },
@@ -64,70 +45,117 @@ const featureBar = [
   { icon: <VerifiedUserIcon />, title: 'Comprehensive', desc: 'Download, update, status, linking' },
 ];
 
+const heroHighlights = [
+  'Download e Adhar Card PDF online',
+  'Update Adhar card details',
+  'Check Adhar application status',
+  'Link PAN card with Adhar',
+  'Book Adhar appointment online',
+  'Locate Adhar enrollment centers',
+  'Download official Adhar forms',
+];
+
+const faqs = [
+  { q: 'Is e Adhar valid everywhere?', a: 'Yes. The e Adhar card is digitally signed and legally valid.' },
+  { q: 'Can I download Adhar without a registered mobile number?', a: 'No. A registered mobile number is required for OTP verification.' },
+  { q: 'How long does Adhar update take?', a: 'Most updates take 7 to 30 days depending on the request type.' },
+  { q: 'Can I update Adhar online?', a: 'Certain updates such as address change can be done online.' },
+];
+
+// Reusable section heading
+const SectionHeading = ({ children, component = 'h2', variant = 'h4' }) => (
+  <Typography component={component} variant={variant} fontWeight={700} gutterBottom sx={{ mt: 5, mb: 1.5 }}>
+    {children}
+  </Typography>
+);
+
+const SubHeading = ({ children }) => (
+  <Typography component="h3" variant="h6" fontWeight={700} gutterBottom sx={{ mt: 3 }}>
+    {children}
+  </Typography>
+);
+
+const BodyText = ({ children, sx = {} }) => (
+  <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.85, mb: 1, ...sx }}>
+    {children}
+  </Typography>
+);
+
+const BulletList = ({ items }) => (
+  <Box component="ul" sx={{ pl: 3, mt: 0.5, mb: 1.5 }}>
+    {items.map((item, i) => (
+      <Typography key={i} component="li" variant="body1" color="text.secondary" sx={{ lineHeight: 1.85, mb: 0.5 }}>
+        {item}
+      </Typography>
+    ))}
+  </Box>
+);
+
+const GuideLink = ({ to, children }) => (
+  <Button component={RouterLink} to={to} variant="outlined" size="small" sx={{ mt: 1, mb: 2, textTransform: 'none', borderRadius: 2 }}>
+    {children}
+  </Button>
+);
+
 const Home = () => {
   useEffect(() => {
     document.title = seoTitle;
+    let descTag = document.querySelector('meta[name="description"]');
+    if (!descTag) { descTag = document.createElement('meta'); descTag.setAttribute('name', 'description'); document.head.appendChild(descTag); }
+    descTag.setAttribute('content', seoDescription);
 
-    let descriptionTag = document.querySelector('meta[name="description"]');
-    if (!descriptionTag) {
-      descriptionTag = document.createElement('meta');
-      descriptionTag.setAttribute('name', 'description');
-      document.head.appendChild(descriptionTag);
-    }
+    // Inject JSON-LD schema
+    const existing = document.getElementById('home-schema');
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.id = 'home-schema';
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schemaData);
+    document.head.appendChild(script);
 
-    descriptionTag.setAttribute('content', seoDescription);
+    return () => { const s = document.getElementById('home-schema'); if (s) s.remove(); };
   }, []);
 
   return (
     <Box>
-      <Box
-        sx={{
-          background: 'linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%)',
-          color: 'white',
-          py: { xs: 8, md: 11 },
-        }}
-      >
+      {/* ── Hero ── */}
+      <Box sx={{ background: 'linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%)', color: 'white', py: { xs: 8, md: 11 } }}>
         <Container maxWidth="lg">
           <Chip label="Adhar Services Guide" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
-          <Typography
-            component="h1"
-            className="hero-title"
-            variant="h2"
-            fontWeight={700}
-            gutterBottom
-            sx={{ fontSize: { xs: '2rem', md: '3.2rem' }, maxWidth: 980 }}
-          >
+          <Typography component="h1" className="hero-title" variant="h2" fontWeight={700} gutterBottom sx={{ fontSize: { xs: '1.8rem', md: '3rem' }, maxWidth: 980 }}>
             Adhar Card Download Online – Complete Guide to e Adhar Card, Updates &amp; Status Check
           </Typography>
-          <Typography className="intro-text" variant="h6" sx={{ opacity: 0.92, maxWidth: 980, mb: 2.5, lineHeight: 1.7 }}>
-            The Adhar Card is one of the most widely used identity documents in India. Issued by UIDAI, it enables secure identity verification across government and private services.
+          <Typography className="intro-text" variant="body1" sx={{ opacity: 0.92, maxWidth: 960, mb: 1.5, lineHeight: 1.8, fontSize: '1.05rem' }}>
+            The Adhar Card is one of the most widely used identity documents in India. Issued by the Unique Identification Authority of India (UIDAI), the Adhar system assigns a unique 12-digit identification number to residents of India. This number is linked with biometric and demographic information and is used for identity verification across many government and private services.
           </Typography>
-          <Typography variant="h6" sx={{ opacity: 0.92, maxWidth: 980, mb: 2, lineHeight: 1.7 }}>
-            This website acts as a complete information hub for Adhar services, helping users with:
+          <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 960, mb: 1.5, lineHeight: 1.8, fontSize: '1.05rem' }}>
+            With the rapid growth of digital services in India, the ability to download your Adhar Card online has become extremely important. Instead of carrying a physical card everywhere, you can simply download the e Adhar card PDF and store it digitally.
           </Typography>
-          <Box component="ul" sx={{ pl: 3, maxWidth: 720, mb: 3.5 }}>
-            {highlights.map((item) => (
-              <Typography component="li" key={item} variant="body1" sx={{ lineHeight: 1.9 }}>
+          <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 960, mb: 1, lineHeight: 1.8, fontSize: '1.05rem' }}>
+            This website acts as a complete information hub for Adhar services, helping users understand how to:
+          </Typography>
+          <Box component="ul" sx={{ pl: 3, maxWidth: 720, mb: 3 }}>
+            {heroHighlights.map((item) => (
+              <Typography component="li" key={item} variant="body1" sx={{ lineHeight: 1.9, opacity: 0.93 }}>
                 {item}
               </Typography>
             ))}
           </Box>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <Button component="a" href="/by-number-mobile" variant="contained" color="secondary" startIcon={<DownloadIcon />}>
+            <Button component={RouterLink} to="/by-number-mobile" variant="contained" color="secondary" startIcon={<DownloadIcon />} sx={{ fontWeight: 700 }}>
               Download e Adhar Card
             </Button>
-            <Button
-              component="a"
-              href="/update"
-              variant="outlined"
-              sx={{ color: 'white', borderColor: 'white', '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.08)' } }}
-            >
-              Update Aadhaar
+            <Button component={RouterLink} to="/update" variant="outlined" sx={{ color: 'white', borderColor: 'white', fontWeight: 700, '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.08)' } }}>
+              Update Aadhaar Details
+            </Button>
+            <Button component={RouterLink} to="/status" variant="outlined" sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.7)', fontWeight: 700, '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.08)' } }}>
+              Check Adhar Status
             </Button>
           </Box>
         </Container>
       </Box>
 
+      {/* ── Feature Bar ── */}
       <Box sx={{ bgcolor: 'secondary.main', py: 2.5 }}>
         <Container maxWidth="lg">
           <Grid container spacing={2}>
@@ -136,12 +164,8 @@ const Home = () => {
                 <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', color: 'white' }}>
                   {item.icon}
                   <Box>
-                    <Typography variant="subtitle2" fontWeight={700}>
-                      {item.title}
-                    </Typography>
-                    <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                      {item.desc}
-                    </Typography>
+                    <Typography variant="subtitle2" fontWeight={700}>{item.title}</Typography>
+                    <Typography variant="caption" sx={{ opacity: 0.9 }}>{item.desc}</Typography>
                   </Box>
                 </Box>
               </Grid>
@@ -150,63 +174,239 @@ const Home = () => {
         </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 } }}>
-        <Typography component="h2" variant="h4" fontWeight={700} sx={{ mb: 2 }}>
-          More Adhar Services
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3, lineHeight: 1.85 }}>
-          If you need to download your Adhar Card or manage Adhar services, these route-wise guides will walk you through each process.
-        </Typography>
+      {/* ── Main Content ── */}
+      <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
 
-        <Grid container spacing={3} sx={{ mb: 6 }}>
-          {topServices.map((service) => (
-            <Grid item xs={12} md={4} key={service.title}>
+        {/* More Adhar Services cards */}
+        <SectionHeading>More Adhar Services</SectionHeading>
+        <Grid container spacing={3} sx={{ mb: 5 }}>
+          {[
+            { title: 'Download e Adhar Card', desc: 'Get complete guidance to download your e Adhar card using Aadhaar number, enrollment ID, or VID.', to: '/by-number-mobile' },
+            { title: 'Update Adhar Card Details', desc: 'Learn address, document and correction flows with required steps and update essentials.', to: '/update' },
+            { title: 'Check Adhar Card Status', desc: 'Track enrollment and update requests quickly using status and application tracking tools.', to: '/status' },
+          ].map((s) => (
+            <Grid item xs={12} md={4} key={s.title}>
               <Card sx={{ height: '100%' }}>
                 <CardContent sx={{ p: 3 }}>
-                  <Typography variant="h6" fontWeight={700} gutterBottom>
-                    {service.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.8 }}>
-                    {service.description}
-                  </Typography>
-                  <Button component="a" href={service.href} variant="text" sx={{ px: 0 }}>
-                    {service.title}
-                  </Button>
+                  <Typography variant="h6" fontWeight={700} gutterBottom>{s.title}</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.8 }}>{s.desc}</Typography>
+                  <Button component={RouterLink} to={s.to} variant="text" sx={{ px: 0, textTransform: 'none' }}>{s.title} →</Button>
                 </CardContent>
               </Card>
             </Grid>
           ))}
         </Grid>
 
-        <Typography component="h2" variant="h4" fontWeight={700} sx={{ mb: 2 }}>
-          Additional Quick Links
-        </Typography>
-        <Grid container spacing={2}>
-          {utilityLinks.map((link) => (
-            <Grid item xs={12} sm={6} md={4} key={link.href}>
-              <Paper sx={{ p: 2.25, height: '100%' }}>
-                <Typography variant="body1" fontWeight={600} sx={{ mb: 1.2 }}>
-                  {link.label}
-                </Typography>
-                <Button component="a" href={link.href} variant="text" sx={{ px: 0 }}>
-                  Open Guide
+        <Divider />
+
+        {/* What is Adhar Card */}
+        <SectionHeading>What is an Adhar Card?</SectionHeading>
+        <BodyText>The Adhar Card is a digital identity system developed by the Government of India to provide a unique identification number to every resident.</BodyText>
+        <BodyText>The program is managed by the Unique Identification Authority of India (UIDAI), which operates under the Ministry of Electronics and Information Technology.</BodyText>
+        <BodyText>Each Adhar number is unique and linked with biometric information such as:</BodyText>
+        <BulletList items={['Fingerprints', 'Iris scans', 'Photograph']} />
+        <BodyText>Along with biometric data, the card also stores demographic information including:</BodyText>
+        <BulletList items={['Full name', 'Date of birth', 'Gender', 'Address', 'Mobile number']} />
+        <BodyText>The goal of the Adhar system is to create a secure and universal identity platform that can be used across India.</BodyText>
+        <BodyText>More information about UIDAI can be found on the official portal: <a href="https://uidai.gov.in/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>https://uidai.gov.in/</a></BodyText>
+
+        <Divider />
+
+        {/* Why Important */}
+        <SectionHeading>Why Adhar Card is Important in India</SectionHeading>
+        <BodyText>Today, the Adhar card is used for many essential services. It plays a major role in India's digital infrastructure and is widely used for identity verification.</BodyText>
+
+        <SubHeading>Government Welfare Programs</SubHeading>
+        <BodyText>Many government schemes require Adhar authentication to ensure benefits reach the correct individuals. Examples include:</BodyText>
+        <BulletList items={['LPG subsidy', 'Pension schemes', 'Scholarship programs']} />
+
+        <SubHeading>Banking and Financial Services</SubHeading>
+        <BodyText>Banks often require Adhar for:</BodyText>
+        <BulletList items={['Account opening', 'KYC verification', 'Loan applications']} />
+
+        <SubHeading>Mobile SIM Verification</SubHeading>
+        <BodyText>Telecom providers may use Adhar-based verification when issuing SIM cards.</BodyText>
+
+        <SubHeading>Digital Authentication</SubHeading>
+        <BodyText>Adhar enables fast identity verification through OTP or biometric authentication.</BodyText>
+        <BodyText>Because of these benefits, many people frequently need to download their Adhar card online or update information when details change.</BodyText>
+
+        <Divider />
+
+        {/* Download Online */}
+        <SectionHeading>Adhar Card Download Online</SectionHeading>
+        <BodyText>One of the most common services provided by UIDAI is the ability to download the Adhar card online. The digital version of the card is called e Adhar.</BodyText>
+        <BodyText>This electronic version contains the same information as the physical card and is digitally signed by UIDAI, making it legally valid.</BodyText>
+        <BodyText>The e Adhar card can be downloaded in PDF format and printed whenever required.</BodyText>
+        <GuideLink to="/by-number-mobile">Complete Guide – Adhar Card Download</GuideLink>
+
+        <Divider />
+
+        {/* Methods */}
+        <SectionHeading>Methods to Download Adhar Card</SectionHeading>
+        <BodyText>UIDAI allows multiple ways to download the Adhar card depending on the information available. These methods ensure residents can still access their identity even if they do not remember their Adhar number.</BodyText>
+
+        <SubHeading>Download Using Adhar Number</SubHeading>
+        <BodyText>Residents who know their 12-digit Adhar number can easily download the card using OTP verification.</BodyText>
+        <GuideLink to="/by-number-mobile">Complete Guide – How to Download Adhar Card by Mobile Number</GuideLink>
+
+        <SubHeading>Download Using Enrollment ID</SubHeading>
+        <BodyText>If you recently applied for Adhar but have not yet received the card, you can download it using the Enrollment ID (EID).</BodyText>
+
+        <SubHeading>Download Using Virtual ID</SubHeading>
+        <BodyText>The Virtual ID (VID) is a temporary number generated by UIDAI that can be used instead of the Adhar number for privacy protection.</BodyText>
+
+        <Divider />
+
+        {/* PDF Password */}
+        <SectionHeading>Adhar Card PDF Password</SectionHeading>
+        <BodyText>When downloading the e Adhar card, the file is provided as a password protected PDF. This security measure ensures that personal information remains protected.</BodyText>
+        <BodyText sx={{ fontWeight: 700, color: 'text.primary' }}>The password format is: First four letters of your name (capital letters) + birth year.</BodyText>
+        <Paper variant="outlined" sx={{ p: 2, my: 2, borderRadius: 2, bgcolor: '#f5f7fa', maxWidth: 340 }}>
+          <Typography variant="body2" color="text.secondary">Example:</Typography>
+          <Typography variant="body2">Name: <strong>Ramesh</strong> &nbsp;|&nbsp; Year of birth: <strong>1992</strong></Typography>
+          <Typography variant="body1" fontWeight={700} sx={{ mt: 0.5, letterSpacing: 2 }}>Password: RAME1992</Typography>
+        </Paper>
+        <GuideLink to="/pdf-password-print">Full Explanation and Printing Instructions</GuideLink>
+
+        <Divider />
+
+        {/* Print */}
+        <SectionHeading>How to Print Adhar Card</SectionHeading>
+        <BodyText>Once the e Adhar PDF is downloaded, you can easily print the card. Steps include:</BodyText>
+        <BulletList items={['Download the e Adhar file', 'Enter the PDF password', 'Open the document', 'Print using standard A4 paper']} />
+        <BodyText>You can also request Adhar card reprint services if the physical card is damaged.</BodyText>
+        <GuideLink to="/pdf-password-print">Adhar Card Printing and Reprint Guide</GuideLink>
+
+        <Divider />
+
+        {/* Update */}
+        <SectionHeading>Adhar Card Update Services</SectionHeading>
+        <BodyText>Sometimes users need to update information in their Adhar records. Common updates include:</BodyText>
+        <BulletList items={['Address change', 'Mobile number update', 'Name correction', 'Date of birth update']} />
+        <BodyText>These updates help ensure your identity records remain accurate.</BodyText>
+        <GuideLink to="/update">Complete Adhar Card Update Guide</GuideLink>
+
+        <SubHeading>Address Change in Adhar</SubHeading>
+        <BodyText>If you move to a new residence, you must update your address in Adhar. Address updates can often be completed online using supporting documents.</BodyText>
+        <GuideLink to="/address-change">Complete Guide – Update Adhar Card Address</GuideLink>
+
+        <SubHeading>Mobile Number Update</SubHeading>
+        <BodyText>Your mobile number is required for OTP authentication. If your number changes, you must update it at an Adhar enrollment center.</BodyText>
+        <GuideLink to="/mobile-number">Read More – Update Mobile Number on Adhar Card</GuideLink>
+
+        <SubHeading>Adhar Update Documents</SubHeading>
+        <BodyText>UIDAI requires valid documents for identity verification during updates. Examples include:</BodyText>
+        <BulletList items={['Passport', 'Voter ID', 'PAN card', 'Driving licence']} />
+        <GuideLink to="/documents">Full Document List for Adhar Update</GuideLink>
+
+        <Divider />
+
+        {/* Status */}
+        <SectionHeading>Check Adhar Card Status</SectionHeading>
+        <BodyText>After applying for a new Adhar card or submitting update requests, users can track the progress of their application. This service is known as Adhar card status check.</BodyText>
+        <BodyText>You can check status using:</BodyText>
+        <BulletList items={['Enrollment ID', 'Update Request Number']} />
+        <GuideLink to="/status">Check Your Adhar Card Status Now</GuideLink>
+
+        <Divider />
+
+        {/* Lost Adhar */}
+        <SectionHeading>What to Do if Adhar Card is Lost</SectionHeading>
+        <BodyText>Losing your Adhar card is not a major issue because you can easily recover the digital version. Possible solutions include:</BodyText>
+        <BulletList items={['Downloading e Adhar', 'Retrieving enrollment ID', 'Requesting card reprint']} />
+        <GuideLink to="/status/lost-adhar">Full Recovery Guide – Lost Adhar Card</GuideLink>
+
+        <Divider />
+
+        {/* PAN Link */}
+        <SectionHeading>Link PAN Card With Adhar</SectionHeading>
+        <BodyText>Linking PAN with Adhar is mandatory for filing income tax returns. If PAN is not linked with Adhar, it may become inactive. Benefits of linking include:</BodyText>
+        <BulletList items={['Faster tax verification', 'Simplified financial records', 'Compliance with tax regulations']} />
+        <GuideLink to="/link/pan-card">Read More – How to Link Adhar Card with PAN Card</GuideLink>
+
+        <Divider />
+
+        {/* Bank KYC */}
+        <SectionHeading>Adhar Bank KYC Linking</SectionHeading>
+        <BodyText>Banks may use Adhar for Know Your Customer (KYC) verification. Linking Adhar with bank accounts can simplify identity verification and allow access to certain government benefits.</BodyText>
+
+        <Divider />
+
+        {/* Appointment */}
+        <SectionHeading>Book Adhar Appointment Online</SectionHeading>
+        <BodyText>Instead of waiting in long queues, users can schedule an appointment at an Adhar center. Appointments can be booked for:</BodyText>
+        <BulletList items={['Biometric updates', 'New enrollment', 'Mobile number updates', 'Document corrections']} />
+
+        <SubHeading>Find Adhar Center Near Me</SubHeading>
+        <BodyText>You can search for nearby Adhar enrollment centers.</BodyText>
+
+        <SubHeading>Adhar Office Locator</SubHeading>
+        <BodyText>UIDAI offices across India provide various services.</BodyText>
+
+        <Divider />
+
+        {/* Download Forms */}
+        <SectionHeading>Download Adhar Forms</SectionHeading>
+        <BodyText>Certain services require physical application forms. Forms available include:</BodyText>
+        <BulletList items={['New enrollment form', 'Update form', 'Child Adhar application form']} />
+
+        <Divider />
+
+        {/* Blog / News */}
+        <SectionHeading>Latest Adhar News and Updates</SectionHeading>
+        <BodyText>Stay informed about new policies and service changes. Recent topics include:</BodyText>
+        <Grid container spacing={2} sx={{ mb: 3 }}>
+          {[
+            { label: 'Adhar Card New Rules', to: '/blog/adhar-card-new-rules' },
+            { label: 'Adhar Update Fees', to: '/blog/adhar-update-fees' },
+            { label: 'Adhar Update Processing Time', to: '/blog/how-long-adhar-update-takes' },
+          ].map((b) => (
+            <Grid item xs={12} sm={4} key={b.to}>
+              <Paper variant="outlined" sx={{ p: 2, borderRadius: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <ArticleIcon color="primary" />
+                <Button component={RouterLink} to={b.to} variant="text" sx={{ textTransform: 'none', p: 0, fontWeight: 600, textAlign: 'left' }}>
+                  {b.label}
                 </Button>
               </Paper>
             </Grid>
           ))}
         </Grid>
+
+        <Divider />
+
+        {/* Security */}
+        <SectionHeading>Security and Privacy of Adhar Data</SectionHeading>
+        <BodyText>The UIDAI system uses multiple security layers to protect personal information. Security features include:</BodyText>
+        <BulletList items={['Biometric encryption', 'OTP authentication', 'Masked Adhar', 'Virtual ID']} />
+        <BodyText>These features ensure that identity data remains protected.</BodyText>
+
+        <Divider />
+
+        {/* FAQ */}
+        <SectionHeading>Frequently Asked Questions</SectionHeading>
+        {faqs.map((faq, i) => (
+          <Accordion key={i} elevation={0} variant="outlined" sx={{ mb: 1, borderRadius: '8px !important', '&:before': { display: 'none' } }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography fontWeight={600}>{faq.q}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="body1" color="text.secondary">{faq.a}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+
       </Container>
 
+      {/* ── CTA Footer ── */}
       <Box sx={{ background: 'linear-gradient(135deg, #0d47a1, #1976d2)', py: 8, textAlign: 'center', color: 'white' }}>
         <Container maxWidth="md">
           <ContactSupportIcon sx={{ fontSize: 60, mb: 2, opacity: 0.9 }} />
-          <Typography variant="h4" fontWeight={700} gutterBottom>
-            Need Help With Adhar Services?
-          </Typography>
+          <Typography variant="h4" fontWeight={700} gutterBottom>Need Help With Adhar Services?</Typography>
           <Typography variant="h6" sx={{ opacity: 0.9, mb: 4, lineHeight: 1.7 }}>
             Use this website as a complete information hub for downloads, updates, status checks, and linking guidance.
           </Typography>
-          <Button component="a" href="/contact-us" variant="contained" color="secondary" size="large" sx={{ px: 4, py: 1.5 }}>
+          <Button component={RouterLink} to="/contact-us" variant="contained" color="secondary" size="large" sx={{ px: 4, py: 1.5, fontWeight: 700 }}>
             Contact Us
           </Button>
         </Container>

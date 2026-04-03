@@ -19,6 +19,9 @@ import BlogHowLongAdharUpdateTakes from '../pages/BlogHowLongAdharUpdateTakes';
 import AboutUs from '../pages/AboutUs';
 import ContactUs from '../pages/ContactUs';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
+import Disclaimer from '../pages/Disclaimer';
+import TermsAndConditions from '../pages/TermsAndConditions';
+import CookiePolicy from '../pages/CookiePolicy';
 import Blogs from '../pages/Blogs';
 import Layout from '../components/Layout';
 
@@ -45,6 +48,9 @@ const AppRoutes = () => {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/disclaimer" element={<Disclaimer />} />
+        <Route path="/terms-conditions" element={<TermsAndConditions />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
 
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
