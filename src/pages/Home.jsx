@@ -23,6 +23,7 @@ import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArticleIcon from '@mui/icons-material/Article';
 import { Link as RouterLink } from 'react-router-dom';
+import QuickAadharDownload from '../components/QuickAadharDownload';
 
 const seoTitle = 'Adhar Card Download Online – e Adhar PDF, Status Check, Update & PAN Link Guide';
 const seoDescription =
@@ -176,6 +177,11 @@ const Home = () => {
 
       {/* ── Main Content ── */}
       <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
+
+        {/* Quick Download Form */}
+        <QuickAadharDownload />
+
+        <Divider sx={{ my: 5 }} />
 
         {/* More Adhar Services cards */}
         <SectionHeading>More Adhar Services</SectionHeading>
