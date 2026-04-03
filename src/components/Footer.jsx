@@ -113,14 +113,11 @@ const Footer = () => {
 
         <Divider sx={{ borderColor: 'rgba(255,255,255,0.2)', my: 3 }} />
 
-        {/* Disclaimer */}
-        <Typography variant="body2" align="center" sx={{ opacity: 0.75, mb: 1.5, fontStyle: 'italic' }}>
-          This is an independent informational website created to help users understand
-          Aadhaar-related processes. We are not associated with UIDAI or any government body.
-        </Typography>
+        {/* Disclaimer */} 
 
         <Typography variant="body2" align="center" sx={{ opacity: 0.6 }}>
-          © {new Date().getFullYear()} Aadhaar Card Download. Aadhaar is a registered trademark of UIDAI, Government of India.
+          This is an independent informational website created to help users understand
+          Aadhaar-related processes. We are not associated with UIDAI or any government body.© {new Date().getFullYear()} 
         </Typography>
       </Container>
     </Box>
