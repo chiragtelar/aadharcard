@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Toolbar } from '@mui/material';
 import Header from './Header';
 import Footer from './Footer';
+import ScrollToTopButton from './ScrollToTopButton';
 
 const Layout = ({ children }) => {
   return (
@@ -12,6 +13,7 @@ const Layout = ({ children }) => {
         {children}
       </Box>
       <Footer />
+      <ScrollToTopButton />
     </Box>
   );
 };
