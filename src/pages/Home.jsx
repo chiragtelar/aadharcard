@@ -126,6 +126,9 @@ const Home = () => {
           <Typography component="h1" className="hero-title" variant="h2" fontWeight={700} gutterBottom sx={{ fontSize: { xs: '1.8rem', md: '3rem' }, maxWidth: 980 }}>
             Adhar Card Download Online – Complete Guide to e Adhar Card, Updates &amp; Status Check
           </Typography>
+
+          <QuickAadharDownload />
+
           <Typography className="intro-text" variant="body1" sx={{ opacity: 0.92, maxWidth: 960, mb: 1.5, lineHeight: 1.8, fontSize: '1.05rem' }}>
             The Adhar Card is one of the most widely used identity documents in India. Issued by the Unique Identification Authority of India (UIDAI), the Adhar system assigns a unique 12-digit identification number to residents of India. This number is linked with biometric and demographic information and is used for identity verification across many government and private services.
           </Typography>
@@ -177,11 +180,6 @@ const Home = () => {
 
       {/* ── Main Content ── */}
       <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
-
-        {/* Quick Download Form */}
-        <QuickAadharDownload />
-
-        <Divider sx={{ my: 5 }} />
 
         {/* More Adhar Services cards */}
         <SectionHeading>More Adhar Services</SectionHeading>

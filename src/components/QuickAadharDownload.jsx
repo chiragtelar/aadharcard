@@ -13,26 +13,26 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const QuickAadharDownload = () => {
-  const [aadharNumber, setAadharNumber] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, 12);
-    setAadharNumber(value);
+    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+    setMobileNumber(value);
     if (error) setError('');
   };
 
   const handleSubmit = () => {
-    if (!aadharNumber.trim()) {
-      setError('Please enter your Aadhaar number');
+    if (!mobileNumber.trim()) {
+      setError('Please enter your mobile number');
       return;
     }
-    if (aadharNumber.length !== 12) {
-      setError('Aadhaar number must be exactly 12 digits');
+    if (mobileNumber.length !== 10) {
+      setError('Mobile number must be exactly 10 digits');
       return;
     }
-    navigate(`/by-number-mobile?aadhar=${aadharNumber}`);
+    navigate(`/by-number-mobile?mobile=${mobileNumber}`);
   };
 
   const handleKeyPress = (e) => {
@@ -41,10 +41,9 @@ const QuickAadharDownload = () => {
     }
   };
 
-  const formatAadharDisplay = (num) => {
-    if (num.length <= 4) return num;
-    if (num.length <= 8) return `${num.slice(0, 4)} ${num.slice(4)}`;
-    return `${num.slice(0, 4)} ${num.slice(4, 8)} ${num.slice(8)}`;
+  const formatMobileDisplay = (num) => {
+    if (num.length <= 5) return num;
+    return `${num.slice(0, 5)} ${num.slice(5)}`;
   };
 
   return (
@@ -52,10 +51,10 @@ const QuickAadharDownload = () => {
       <Container maxWidth="md">
         <Typography
           component="h2"
-          variant="h3"
+          variant="h5"
           fontWeight={700}
           gutterBottom
-          sx={{ textAlign: 'center', mb: 1 }}
+          sx={{ textAlign: 'center', mb: 1, fontSize: { xs: '1.2rem', md: '1.5rem' } }}
         >
           Aadhar Card Download – Get E Aadhaar
         </Typography>
@@ -64,7 +63,7 @@ const QuickAadharDownload = () => {
           color="text.secondary"
           sx={{ textAlign: 'center', mb: 4, lineHeight: 1.8 }}
         >
-          Enter your Aadhaar number below to quickly download your e-Aadhaar card in PDF format.
+          Enter your mobile number below to quickly continue with e-Aadhaar download steps.
         </Typography>
 
         <Paper
@@ -89,15 +88,15 @@ const QuickAadharDownload = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                placeholder="Enter 12-digit Aadhaar number"
-                value={formatAadharDisplay(aadharNumber)}
+                placeholder="Enter 10-digit mobile number"
+                value={formatMobileDisplay(mobileNumber)}
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
                 variant="outlined"
                 type="text"
                 inputProps={{
                   inputMode: 'numeric',
-                  maxLength: 14,
+                  maxLength: 11,
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
@@ -111,7 +110,7 @@ const QuickAadharDownload = () => {
                 color="text.secondary"
                 sx={{ display: 'block', mt: 1 }}
               >
-                Format: XXXX XXXX XXXX (12 digits)
+                Format: XXXXX XXXXX (10 digits)
               </Typography>
             </Grid>
             <Grid item xs={12}>
