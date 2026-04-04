@@ -57,7 +57,7 @@ const Blogs = () => {
                     size="small"
                     sx={{ alignSelf: 'flex-start', mt: 0.5, textTransform: 'none' }}
                   >
-                    Open Blog
+                    Read More...
                   </Button>
                 </CardContent>
               </Card>

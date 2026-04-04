@@ -6,14 +6,10 @@ import {
   Typography,
   Link,
   Divider,
-  IconButton,
 } from '@mui/material';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import EmailIcon from '@mui/icons-material/Email';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = () => {
@@ -35,17 +31,6 @@ const Footer = () => {
               using official methods like UIDAI portal, OTP verification, and mAadhaar app. We are
               not affiliated with UIDAI or any government authority.
             </Typography>
-            <Box>
-              <IconButton sx={{ color: 'white', p: 0.5 }} aria-label="Facebook">
-                <FacebookIcon />
-              </IconButton>
-              <IconButton sx={{ color: 'white', p: 0.5 }} aria-label="Twitter">
-                <TwitterIcon />
-              </IconButton>
-              <IconButton sx={{ color: 'white', p: 0.5 }} aria-label="LinkedIn">
-                <LinkedInIcon />
-              </IconButton>
-            </Box>
           </Grid>
 
           {/* Col 2 — Quick Links */}

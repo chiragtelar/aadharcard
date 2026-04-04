@@ -1,9 +1,0 @@
-﻿word/numbering.xml
-word/settings.xml
-word/fontTable.xml
-word/styles.xml
-word/document.xml
-word/_rels/document.xml.rels
-_rels/.rels
-word/theme/theme1.xml
-[Content_Types].xml
