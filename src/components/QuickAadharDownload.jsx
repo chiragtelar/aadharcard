@@ -49,7 +49,7 @@ const QuickAadharDownload = () => {
   return (
     <Box sx={{ bgcolor: 'linear-gradient(rgba(13, 71, 161, 0.08), rgba(25, 118, 210, 0.08))', py: { xs: 6, md: 8 } }}>
       <Container maxWidth="md">
-        <Typography
+        {/*<Typography
           component="h2"
           variant="h5"
           fontWeight={700}
@@ -58,13 +58,13 @@ const QuickAadharDownload = () => {
         >
           Aadhar Card Download – Get E Aadhaar
         </Typography>
-        <Typography
+         <Typography
           variant="body1"
           color="text.secondary"
           sx={{ textAlign: 'center', mb: 4, lineHeight: 1.8 }}
         >
           Enter your mobile number below to quickly continue with e-Aadhaar download steps.
-        </Typography>
+        </Typography> */}
 
         <Paper
           elevation={2}
@@ -118,16 +118,19 @@ const QuickAadharDownload = () => {
                 fullWidth
                 variant="contained"
                 color="primary"
-                onClick={handleSubmit}
+                component="a"
+                href="https://uidai.gov.in/"
+                target="_blank"
+                rel="noopener noreferrer"
                 startIcon={<DownloadIcon />}
                 sx={{
                   py: 1.6,
-                  fontWeight: 700,
+                  fontWeight: 400,
                   fontSize: '1rem',
                   textTransform: 'none',
                 }}
               >
-                Download E Aadhaar
+                Download
               </Button>
             </Grid>
           </Grid>
@@ -193,11 +196,11 @@ const QuickAadharDownload = () => {
             </Alert>
           )}
 
-          <Box sx={{ mt: 3, p: 2, bgcolor: '#f5f7fa', borderRadius: 1 }}>
+          {/* <Box sx={{ mt: 3, p: 2, bgcolor: '#f5f7fa', borderRadius: 1 }}>
             <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
               <strong>💡 Tip:</strong> Your e-Aadhaar is a digitally signed document. You'll need the password (first 4 letters of your name in capitals + birth year) to open the PDF.
             </Typography>
-          </Box>
+          </Box> */}
         </Paper>
       </Container>
     </Box>

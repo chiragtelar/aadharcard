@@ -15,6 +15,9 @@ import {
   Divider,
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import ShieldIcon from '@mui/icons-material/Security';
+import StarIcon from '@mui/icons-material/Star';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import SpeedIcon from '@mui/icons-material/Speed';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
@@ -120,43 +123,32 @@ const Home = () => {
   return (
     <Box>
       {/* ── Hero ── */}
-      <Box sx={{ background: 'linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%)', color: 'white', py: { xs: 8, md: 11 } }}>
-        <Container maxWidth="lg">
-          <Chip label="Adhar Services Guide" color="secondary" sx={{ mb: 2, fontWeight: 600 }} />
-          <Typography component="h1" className="hero-title" variant="h2" fontWeight={700} gutterBottom sx={{ fontSize: { xs: '1.8rem', md: '3rem' }, maxWidth: 980 }}>
+      <Box sx={{ py: { xs: 4, md: 5 }, px: { xs: 2, md: 4 }, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Box sx={{ background: 'linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%)', color: 'white', py: { xs: 6, md: 9 }, px: { xs: 3, md: 6 }, borderRadius: { xs: 3, md: 4 }, maxWidth: '1280px', width: '100%' }}>
+          <Container maxWidth="lg">
+          {/* <Chip label="Adhar Services Guide" color="secondary" sx={{ mb: 2, fontWeight: 600 }} /> */}
+          <Typography component="h1" className="hero-title" variant="h2" fontWeight={700} gutterBottom sx={{ fontSize: { xs: '1.8rem', md: '2.8rem' }, maxWidth: 980, mb: 2 }}>
             Adhar Card Download Online – Complete Guide to e Adhar Card, Updates &amp; Status Check
           </Typography>
 
+          {/* Quick Download Form - Top Priority */}
           <QuickAadharDownload />
 
-          <Typography className="intro-text" variant="body1" sx={{ opacity: 0.92, maxWidth: 960, mb: 1.5, lineHeight: 1.8, fontSize: '1.05rem' }}>
-            The Adhar Card is one of the most widely used identity documents in India. Issued by the Unique Identification Authority of India (UIDAI), the Adhar system assigns a unique 12-digit identification number to residents of India. This number is linked with biometric and demographic information and is used for identity verification across many government and private services.
+          <Typography className="intro-text" variant="body1" sx={{ opacity: 0.92, maxWidth: 960, mb: 1.5, lineHeight: 1.8, fontSize: '1rem', mt: 2 }}>
+            The Adhar Card is one of the most widely used identity documents in India. Issued by UIDAI, the Adhar system assigns a unique 12-digit identification number to residents.
           </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 960, mb: 1.5, lineHeight: 1.8, fontSize: '1.05rem' }}>
-            With the rapid growth of digital services in India, the ability to download your Adhar Card online has become extremely important. Instead of carrying a physical card everywhere, you can simply download the e Adhar card PDF and store it digitally.
-          </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 960, mb: 1, lineHeight: 1.8, fontSize: '1.05rem' }}>
+          <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 960, mb: 2, lineHeight: 1.8, fontSize: '1rem' }}>
             This website acts as a complete information hub for Adhar services, helping users understand how to:
           </Typography>
           <Box component="ul" sx={{ pl: 3, maxWidth: 720, mb: 3 }}>
-            {heroHighlights.map((item) => (
-              <Typography component="li" key={item} variant="body1" sx={{ lineHeight: 1.9, opacity: 0.93 }}>
+            {heroHighlights.slice(0, 5).map((item) => (
+              <Typography component="li" key={item} variant="body1" sx={{ lineHeight: 1.9, opacity: 0.93, mb: 0.5 }}>
                 {item}
               </Typography>
             ))}
-          </Box>
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <Button component={RouterLink} to="/by-number-mobile" variant="contained" color="secondary" startIcon={<DownloadIcon />} sx={{ fontWeight: 700 }}>
-              Download e Adhar Card
-            </Button>
-            <Button component={RouterLink} to="/update" variant="outlined" sx={{ color: 'white', borderColor: 'white', fontWeight: 700, '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.08)' } }}>
-              Update Aadhaar Details
-            </Button>
-            <Button component={RouterLink} to="/status" variant="outlined" sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.7)', fontWeight: 700, '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.08)' } }}>
-              Check Adhar Status
-            </Button>
-          </Box>
+          </Box>  
         </Container>
+      </Box>
       </Box>
 
       {/* ── Feature Bar ── */}
