@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, Paper, Button } from '@mui/material';
+import { Box, Container, Typography, Paper, Button, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import routeDocContent from '../content/routeDocContent.json';
 
 const normalizeRoute = (value) => {
@@ -107,7 +108,7 @@ const isHighlightLine = (line) => {
   );
 };
 
-const DocRoutePage = ({ routeKey }) => {
+const DocRoutePage = ({ routeKey, afterTitleContent = null, afterContent = null, renderFaqAsAccordion = false }) => {
   const normalizedKey = normalizeRoute(routeKey);
   const section = routeDocContent.find((item) => normalizeRoute(item.route) === normalizedKey);
 
@@ -165,6 +166,8 @@ const DocRoutePage = ({ routeKey }) => {
             </Typography>
           )}
 
+          {section.metaTitle && afterTitleContent}
+
           {(() => {
             const rendered = [];
             let bulletItems = [];
@@ -191,13 +194,14 @@ const DocRoutePage = ({ routeKey }) => {
               bulletItems = [];
             };
 
-            filteredContent.forEach((line, index) => {
+            for (let index = 0; index < filteredContent.length; index += 1) {
+              const line = filteredContent[index];
               const previousLine = index > 0 ? filteredContent[index - 1] : '';
               const headingConfig = getHeadingConfig(line);
               const linkData = parseLinkLine(line);
 
               if (headingConfig?.skip) {
-                return;
+                continue;
               }
 
               if (headingConfig?.variant) {
@@ -213,7 +217,58 @@ const DocRoutePage = ({ routeKey }) => {
                     {headingConfig.text}
                   </Typography>
                 );
-                return;
+
+                if (renderFaqAsAccordion && headingConfig.text?.trim().toLowerCase() === 'frequently asked questions') {
+                  const faqItems = [];
+                  let faqIndex = index + 1;
+
+                  while (faqIndex < filteredContent.length) {
+                    const question = (filteredContent[faqIndex] || '').trim();
+                    const nextHeading = getHeadingConfig(question);
+
+                    if (!question) {
+                      faqIndex += 1;
+                      continue;
+                    }
+
+                    if (nextHeading?.variant || nextHeading?.skip) {
+                      break;
+                    }
+
+                    const answer = (filteredContent[faqIndex + 1] || '').trim();
+                    if (!answer) break;
+
+                    faqItems.push({ question, answer });
+                    faqIndex += 2;
+                  }
+
+                  rendered.push(
+                    <Box key={`faq-${index}`} sx={{ mb: 2 }}>
+                      {faqItems.map((item, itemIndex) => (
+                        <Accordion
+                          key={`${item.question}-${itemIndex}`}
+                          elevation={0}
+                          variant="outlined"
+                          defaultExpanded={itemIndex === 0}
+                          sx={{ mb: 1, borderRadius: '8px !important', '&:before': { display: 'none' } }}
+                        >
+                          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography fontWeight={600}>{item.question}</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <Typography variant="body1" color="text.secondary">
+                              {item.answer}
+                            </Typography>
+                          </AccordionDetails>
+                        </Accordion>
+                      ))}
+                    </Box>
+                  );
+
+                  index = faqIndex - 1;
+                }
+
+                continue;
               }
 
               if (linkData) {
@@ -223,12 +278,12 @@ const DocRoutePage = ({ routeKey }) => {
                     {linkData.label}
                   </Button>
                 );
-                return;
+                continue;
               }
 
               if (isLikelyBulletLine(line, previousLine)) {
                 bulletItems.push(line);
-                return;
+                continue;
               }
 
               flushBulletItems(`paragraph-${index}`);
@@ -239,11 +294,13 @@ const DocRoutePage = ({ routeKey }) => {
                   </Box>
                 </Typography>
               );
-            });
+            }
 
             flushBulletItems('final');
             return rendered;
           })()}
+
+          {afterContent}
         </Paper>
       </Container>
     </Box>

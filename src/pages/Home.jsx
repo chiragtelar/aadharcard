@@ -25,6 +25,8 @@ import SecurityIcon from '@mui/icons-material/Security';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArticleIcon from '@mui/icons-material/Article';
+import EditIcon from '@mui/icons-material/Edit';
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { Link as RouterLink } from 'react-router-dom';
 import QuickAadharDownload from '../components/QuickAadharDownload';
 
@@ -177,14 +179,42 @@ const Home = () => {
         <SectionHeading>More Adhar Services</SectionHeading>
         <Grid container spacing={3} sx={{ mb: 5 }}>
           {[
-            { title: 'Download e Adhar Card', desc: 'Get complete guidance to download your e Adhar card using Aadhaar number, enrollment ID, or VID.', to: '/by-number-mobile' },
-            { title: 'Update Adhar Card Details', desc: 'Learn address, document and correction flows with required steps and update essentials.', to: '/update' },
-            { title: 'Check Adhar Card Status', desc: 'Track enrollment and update requests quickly using status and application tracking tools.', to: '/status' },
+            { title: 'Download e Adhar Card', desc: 'Get complete guidance to download your e Adhar card using Aadhaar number, enrollment ID, or VID.', to: '/by-number-mobile', icon: <DownloadIcon />, bgColor: '#E3F2FD' },
+            { title: 'Update Adhar Card Details', desc: 'Learn address, document and correction flows with required steps and update essentials.', to: '/update', icon: <EditIcon />, bgColor: '#FFE8D6' },
+            { title: 'Check Adhar Card Status', desc: 'Track enrollment and update requests quickly using status and application tracking tools.', to: '/status', icon: <TimelineIcon />, bgColor: '#F3E5F5' },
           ].map((s) => (
             <Grid item xs={12} md={4} key={s.title}>
-              <Card sx={{ height: '100%' }}>
+              <Card sx={{ 
+                height: '100%',
+                transition: 'all 0.3s ease-in-out',
+                cursor: 'pointer',
+                '&:hover': {
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 12px 24px rgba(0, 0, 0, 0.12)',
+                  border: '2px solid #1976d2'
+                }
+              }}>
                 <CardContent sx={{ p: 3 }}>
-                  <Typography variant="h6" fontWeight={700} gutterBottom>{s.title}</Typography>
+                  <Box sx={{ mb: 2 }}>
+                    <Box sx={{ 
+                      width: 58, 
+                      height: 58, 
+                      borderRadius: '50%', 
+                      bgcolor: s.bgColor, 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      mb: 1.5, 
+                      color: 'primary.main', 
+                      fontSize: 32,
+                      border: '2px solid #1976d2',
+                      transition: 'transform 0.3s ease-in-out',
+                      '&:hover': {
+                        transform: 'scale(1.1)'
+                      }
+                    }}>{s.icon}</Box>
+                    <Typography variant="h6" fontWeight={700}>{s.title}</Typography>
+                  </Box>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.8 }}>{s.desc}</Typography>
                   <Button component={RouterLink} to={s.to} variant="text" sx={{ px: 0, textTransform: 'none' }}>{s.title} →</Button>
                 </CardContent>
@@ -197,6 +227,35 @@ const Home = () => {
 
         {/* What is Adhar Card */}
         <SectionHeading>What is an Adhar Card?</SectionHeading>
+        <Box
+          sx={{
+            width: '100%',
+            mx: 'auto',
+            mb: 2.5,
+            p: 1,
+            borderRadius: 3,
+            border: '1px solid',
+            borderColor: 'divider',
+            bgcolor: 'background.paper',
+            boxShadow: 2,
+          }}
+        >
+          <Box
+            component="img"
+            src="/images/what-is-an-adhar-card.png"
+            alt="What is an Adhar Card"
+            sx={{
+              width: '100%',
+              height: '100%',
+              minHeight: { xs: 260, sm: 360, md: 460 },
+              objectFit: 'fill',
+              display: 'block',
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'divider',
+            }}
+          />
+        </Box>
         <BodyText>The Adhar Card is a digital identity system developed by the Government of India to provide a unique identification number to every resident.</BodyText>
         <BodyText>The program is managed by the Unique Identification Authority of India (UIDAI), which operates under the Ministry of Electronics and Information Technology.</BodyText>
         <BodyText>Each Adhar number is unique and linked with biometric information such as:</BodyText>
