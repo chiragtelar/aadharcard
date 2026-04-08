@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Container, Typography, Paper, Button, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link as RouterLink } from 'react-router-dom';
 import routeDocContent from '../content/routeDocContent.json';
 
 const normalizeRoute = (value) => {
@@ -66,16 +67,25 @@ const getHeadingConfig = (line) => {
 const parseLinkLine = (line) => {
   const directMatch = line.match(/^→\s*(\/[^\s]+)\s*$/);
   if (directMatch) {
-    return { label: getFriendlyRouteTitle(directMatch[1]), href: directMatch[1] };
+    const normalizedHref = normalizeRoute(directMatch[1]);
+    return { label: getFriendlyRouteTitle(normalizedHref), href: normalizedHref };
   }
 
   const inlineMatch = line.match(/^(.*?)(?:→)\s*(\/[^\s]+)\s*$/);
   if (inlineMatch) {
-    const label = inlineMatch[1].trim().replace(/[:\-\s]+$/, '') || inlineMatch[2];
-    return { label, href: inlineMatch[2] };
+    const normalizedHref = normalizeRoute(inlineMatch[2]);
+    const label = inlineMatch[1].trim().replace(/[:\-\s]+$/, '') || getFriendlyRouteTitle(normalizedHref);
+    return { label, href: normalizedHref };
   }
 
   return null;
+};
+
+const parseBottomRouteOnlyLine = (line) => {
+  const routeOnlyMatch = (line || '').match(/^\s*(\/?[a-z0-9-]+(?:\/[a-z0-9-]+)*\/?)\s*$/i);
+  if (!routeOnlyMatch) return null;
+  const normalizedHref = normalizeRoute(routeOnlyMatch[1]);
+  return { label: getFriendlyRouteTitle(normalizedHref), href: normalizedHref };
 };
 
 const isLikelyBulletLine = (line, previousLine) => {
@@ -108,7 +118,14 @@ const isHighlightLine = (line) => {
   );
 };
 
-const DocRoutePage = ({ routeKey, afterTitleContent = null, afterContent = null, renderFaqAsAccordion = false }) => {
+const DocRoutePage = ({
+  routeKey,
+  afterTitleContent = null,
+  afterContent = null,
+  renderFaqAsAccordion = false,
+  hideFaqContent = false,
+  faqEndMarkers = [],
+}) => {
   const normalizedKey = normalizeRoute(routeKey);
   const section = routeDocContent.find((item) => normalizeRoute(item.route) === normalizedKey);
 
@@ -148,13 +165,63 @@ const DocRoutePage = ({ routeKey, afterTitleContent = null, afterContent = null,
     );
   }
 
-  const filteredContent = (section.content || []).filter((line) => {
+  const baseFilteredContent = (section.content || []).filter((line) => {
     const trimmed = (line || '').trim();
     if (!trimmed) return false;
     if (trimmed === normalizedKey || trimmed === routeKey) return false;
     if (trimmed.toLowerCase() === 'hero section') return false;
     return true;
   });
+
+  const filteredContent = hideFaqContent
+    ? (() => {
+        const lines = [];
+        let skippingFaq = false;
+        const normalizedMarkers = faqEndMarkers.map((item) => (item || '').trim().toLowerCase());
+
+        baseFilteredContent.forEach((line) => {
+          const trimmed = (line || '').trim();
+          const lowerTrimmed = trimmed.toLowerCase();
+
+          const isFaqStart =
+            /^h2\s+frequently asked questions$/i.test(trimmed) ||
+            /^frequently asked questions$/i.test(trimmed) ||
+            /^faqs?\s+on\s+/i.test(trimmed);
+
+          if (!skippingFaq && isFaqStart) {
+            skippingFaq = true;
+            return;
+          }
+
+          if (skippingFaq) {
+            const isHeadingStart = /^h[1-3]\s+/i.test(trimmed);
+            const reachedEndMarker = normalizedMarkers.includes(lowerTrimmed);
+
+            if (isHeadingStart || reachedEndMarker) {
+              skippingFaq = false;
+              lines.push(line);
+            }
+
+            return;
+          }
+
+          lines.push(line);
+        });
+
+        return lines;
+      })()
+    : baseFilteredContent;
+
+  const trailingRouteIndexes = (() => {
+    const indexSet = new Set();
+    for (let index = filteredContent.length - 1; index >= 0; index -= 1) {
+      const line = filteredContent[index];
+      const routeData = parseBottomRouteOnlyLine(line);
+      if (!routeData) break;
+      indexSet.add(index);
+    }
+    return indexSet;
+  })();
 
   return (
     <Box sx={{ py: { xs: 5, md: 8 }, bgcolor: 'grey.100' }}>
@@ -199,6 +266,8 @@ const DocRoutePage = ({ routeKey, afterTitleContent = null, afterContent = null,
               const previousLine = index > 0 ? filteredContent[index - 1] : '';
               const headingConfig = getHeadingConfig(line);
               const linkData = parseLinkLine(line);
+              const routeOnlyData = parseBottomRouteOnlyLine(line);
+              const bottomRouteOnlyData = trailingRouteIndexes.has(index) ? routeOnlyData : null;
 
               if (headingConfig?.skip) {
                 continue;
@@ -274,10 +343,30 @@ const DocRoutePage = ({ routeKey, afterTitleContent = null, afterContent = null,
               if (linkData) {
                 flushBulletItems(`link-${index}`);
                 rendered.push(
-                  <Button key={`${line}-${index}`} component="a" href={linkData.href} variant="text" sx={{ px: 0, display: 'block', textAlign: 'left', mb: 1 }}>
+                  <Button key={`${line}-${index}`} component={RouterLink} to={linkData.href} variant="text" sx={{ px: 0, display: 'block', textAlign: 'left', mb: 1, textTransform: 'none' }}>
                     {linkData.label}
                   </Button>
                 );
+                continue;
+              }
+
+              if (bottomRouteOnlyData) {
+                flushBulletItems(`bottom-link-${index}`);
+                rendered.push(
+                  <Button
+                    key={`${line}-${index}`}
+                    component={RouterLink}
+                    to={bottomRouteOnlyData.href}
+                    variant="text"
+                    sx={{ px: 0, display: 'block', textAlign: 'left', mb: 1, textTransform: 'none' }}
+                  >
+                    {bottomRouteOnlyData.label}
+                  </Button>
+                );
+                continue;
+              }
+
+              if (routeOnlyData) {
                 continue;
               }
 
